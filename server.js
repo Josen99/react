@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const bcryt = require('bcrytjs');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 app.use (express.json());
@@ -19,7 +19,7 @@ app.post('/login', async(req,res) => {
 
 
     const user = users.find( u => u.username === username);
-    if (user && await bcryt.compare(password, user.password)){
+    if (user && await bcrypt.compare(password, user.password)){
         const token = jwt.sign({username: users.username}, SECRET_KEY, {expiresIn: '1h'});
         return res.json({token});
   }
